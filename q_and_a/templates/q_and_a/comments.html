@@ -1,0 +1,14 @@
+{% for answer in question.answers %}
+	<div class="card my-4">
+		<div class="card-header">
+			<img src="..." alt="" class="float-left profile-img">
+		</div>
+		<div class="card-body">
+			{{ question.content }}
+		</div>
+		<div class="card-footer">
+			<small class="muted">{{ question.date_posted|date:'F d, Y' }}</small>
+		</div>
+	</div>
+
+{% endfor %}

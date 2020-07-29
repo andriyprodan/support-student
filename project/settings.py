@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_currentuser.middleware.ThreadLocalUserMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -130,6 +132,7 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'q_and_a:home'
 LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'q_and_a:home'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

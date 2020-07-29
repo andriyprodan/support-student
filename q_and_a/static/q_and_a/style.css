@@ -1,0 +1,26 @@
+/*
+colors:
+#5f00a9 - Purple
+#87bba2 - Eton Blue
+#eb9fef - Plum Web
+#fecee9 - Pink Lace
+#2b4141 - Dark Slate Gray
+*/
+
+
+.profile-img {
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background-color: gray;
+}
+
+/* reference to the particular question */
+.q-ref {
+	text-decoration: none;
+}
+
+.q-ref:hover {
+	text-decoration: none;
+	
+}

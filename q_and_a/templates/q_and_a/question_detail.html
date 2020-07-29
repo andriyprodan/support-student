@@ -1,20 +1,28 @@
 {% extends 'q_and_a/base.html' %}
 
 {% block content %}
-	{% for question in questions %}
 	<div class="card my-4">
 		<div class="card-header">
 			<div class="media">
 				<img src="..." alt="" class="profile-img">
-				<a href="{% url 'q_and_a:question-detail' question.id %}" class="q-ref align-self-center"><h3 class="ml-3">{{ question.title }}</h3></a>
+				<h3 class="ml-3 align-self-center">{{ question.title }}</h3>
 			</div>
 		</div>
-		<div class="card-body" style="overflow:hidden; max-height: 200px;">
+		<div class="card-body">
 			{{ question.content }}
 		</div>
 		<div class="card-footer">
 			<small class="muted">{{ question.date_posted|date:'F d, Y' }}</small>
 		</div>
 	</div>
-	{% endfor %}
+	
+	<form action="">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			{{ form }}
+		</fieldset>
+		<button type="submit" class="btn btn-info btn-comment">Submit the answer</button>
+	</form>
+
+	{% include 'q_and_a/comments.html' %}
 {% endblock content %}
