@@ -12,3 +12,8 @@ class QuestionCreateForm(forms.ModelForm):
 		user_points = kwargs.pop('user_points', None)
 		super().__init__(*args, **kwargs)
 		self.fields['points'].widget.attrs.update({'max': user_points})
+
+class AnswerCreateForm(forms.ModelForm):
+	class Meta:
+		model = Answer
+		fields = ['content']
