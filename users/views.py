@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from rest_framework import viewsets
+from django.contrib.auth.models import User
 
 from .forms import UserRegisterForm
+from .serializers import UserSerializer
 
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
 
 def register(request):
 	if request.method == 'POST':

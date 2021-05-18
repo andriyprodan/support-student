@@ -1,15 +1,15 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+from . import views
 
-from .views import (
-	QuestionCreateView,
-	QuestionListView,
-	QuestionDetail,
-)
+router = DefaultRouter()
+router.register(r'questions', views.QuestionViewSet)
+router.register(r'answers', views.AnswerViewSet)
+router.register(r'subjects', views.SubjectViewSet)
 
 app_name = 'q_and_a'
 urlpatterns = [
-    path('', QuestionListView.as_view(), name='home'),
-    path('ask/', QuestionCreateView.as_view(), name='ask'),
-    path('question/<int:pk>/', QuestionDetail.as_view(), name='question-detail'),
-    
+
 ]
+
+urlpatterns += router.urls
