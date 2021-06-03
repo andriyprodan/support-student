@@ -1,23 +1,48 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from rest_framework import viewsets
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import permissions, serializers
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+import jwt
 
-from .forms import UserRegisterForm
-from .serializers import UserSerializer
+from .serializers import MyTokenObtainPairSerializer, CreateUserSerializer, UserSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
-	queryset = User.objects.all()
-	serializer_class = UserSerializer
+class ObtainTokenPairWithPointsView(TokenObtainPairView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
 
-def register(request):
-	if request.method == 'POST':
-		form = UserRegisterForm(request.POST)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Your account has been created. You are now able to Log In.")
-			return redirect('login')
-	else:
-		form = UserRegisterForm()
+class UserCreate(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
 
-	return render(request, 'users/register.html', {'form': form})
+    def post(self, request, format='json'):
+        serializer = CreateUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CurrentUserView(APIView):
+    def get(self, request, format=None):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+class LogoutAndBlacklistRefreshTokenForUserView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
+
+    def post(self, request):
+        try:
+            refresh_token = request.data['refresh_token']
+            token = RefreshToken(refresh_token)
+            print(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            print(e)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
