@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Question, Answer, Subject
+from .models import Question, Answer, Subject, QuestionImage, Image
 from users.serializers import UserSerializer
 
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,3 +21,8 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'content', 'points', 'subject', 'answers', 'author',]
+
+class QuestionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionImage
+        fields = ['id', 'image']
