@@ -18,12 +18,6 @@ class QuestionViewSet(viewsets.ModelViewSet):
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 
-	def create(self, request, *args, **kwargs):
-		serializer = self.get_serializer(data=request.data)
-		if serializer.is_valid(raise_exception=True):
-			print(serializer.data)
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 class AnswerViewSet(viewsets.ModelViewSet):
 	queryset = Answer.objects.all()
 	serializer_class = AnswerSerializer
