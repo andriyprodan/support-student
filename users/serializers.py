@@ -44,3 +44,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'profile']
+
+class UserLabelSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'profile']
+
+    def validate_id(self, value):
+        if not User.objects.filter(pk=value).exists():
+            raise serializers.ValidationError("User with this id does not exists")
+        return value

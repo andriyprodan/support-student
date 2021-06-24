@@ -7,6 +7,7 @@ from .views import (
     CurrentUserView,
     UserCreate,
     CurrentUserView,
+    UserLabel
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path('blacklist/', LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='blacklist'),
 
     path('current_user/', CurrentUserView.as_view(), name='current_user'),
+    path('user_label/<int:pk>/', UserLabel.as_view(), name='user_label')
 ]

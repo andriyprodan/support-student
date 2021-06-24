@@ -5,6 +5,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
+from rest_framework import permissions
 
 from .models import Question, Answer, Subject, QuestionImage
 from .serializers import (
@@ -15,12 +16,27 @@ from .serializers import (
 )
 
 class QuestionViewSet(viewsets.ModelViewSet):
+	permission_classes = (permissions.AllowAny,)
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 
+	def get_permissions(self):
+		if self.action == 'create':
+			return [permissions.IsAuthenticated(), ]
+
+		return super().get_permissions()
+
 class AnswerViewSet(viewsets.ModelViewSet):
+	permission_classes = (permissions.AllowAny,)
 	queryset = Answer.objects.all()
 	serializer_class = AnswerSerializer
+
+
+	def get_permissions(self):
+		if self.action == 'create':
+			return [permissions.IsAuthenticated(), ]
+
+		return super().get_permissions()
 
 class SubjectList(ListAPIView):
 	queryset = Subject.objects.all()
